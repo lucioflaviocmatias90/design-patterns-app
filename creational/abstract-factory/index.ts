@@ -37,21 +37,21 @@ interface MoveisFactory {
 }
 
 class MoveisModernoFactory implements MoveisFactory {
-  public criarCadeira() {
+  public criarCadeira(): Cadeira {
     return new CadeiraModerna();
   }
 
-  public criarSofa() {
+  public criarSofa(): Sofa {
     return new SofaModerno();
   }
 }
 
 class MoveisRusticoFactory implements MoveisFactory {
-  public criarCadeira() {
+  public criarCadeira(): Cadeira {
     return new CadeiraRustica();
   }
 
-  public criarSofa() {
+  public criarSofa(): Sofa {
     return new SofaRustico();
   }
 }
