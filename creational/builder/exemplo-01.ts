@@ -1,91 +1,102 @@
-/*
-  Visão geral do Builder
+abstract class Sanduiche {
+  abrePao(): void {
+    console.log("Abrindo o pão");
+  }
 
-  - O padrão sugere a separação do código que cria e o código que usa o objeto
-  - Trata da criação de objetos complexos (complexos de verdade)
-    - Construtores muito complexos
-    - Composição de vários objetos (composite)
-    - Algoritmo de criação do objeto complexo
-  - Permite a criação de um objeto em etapas
-  - Permite method chaining
-  - É um padrão de projeto complexo
-*/
+  abstract insereIngredientes(): void;
 
-interface MealComposite {
-  getPrice(): number;
-}
-
-abstract class Meal implements MealComposite {
-  constructor(private name: string, private price: number) {}
-
-  getPrice(): number {
-    return this.price;
+  fechaPao(): void {
+    console.log("Fechando o pão");
   }
 }
 
-// Arroz
-class Rice extends Meal {}
-// Feijão
-class Beans extends Meal {}
-// Carne
-class Meat extends Meal {}
-// Bebida
-class Beverage extends Meal {}
-// Sobremesa
-class Dessert extends Meal {}
-
-class MealBox implements MealComposite {
-  private readonly _children: MealComposite[] = [];
-
-  getPrice() {
-    return this._children.reduce((sum, meal) => sum + meal.getPrice(), 0);
-  }
-
-  add(...meal: MealComposite[]) {
-    meal.forEach((item) => this._children.push(item));
+class HamburgerSanduiche extends Sanduiche {
+  insereIngredientes() {
+    console.log("Inserindo carne e queijo");
   }
 }
 
-abstract class DishBuilder {
-  abstract makeMeal(): this;
-  abstract makeBeverage(): this;
-  abstract makeDessert(): this;
-  abstract getResult(): MealComposite;
+class FishSanduiche extends Sanduiche {
+  insereIngredientes() {
+    console.log("Inserindo peixe e tomate seco");
+  }
 }
 
-class MainDishBuilder extends DishBuilder {
-  private mealBox: MealBox = new MealBox();
+interface SanduicheBuilder {
+  abrePao(): this;
+  insereIngredientes(): this;
+  fechaPao(): this;
+  getSanduiche(): Sanduiche;
+}
 
-  makeMeal(): this {
-    const rice = new Rice("Arroz Branco", 5);
-    const beans = new Beans("Feijão Carioca", 10);
-    const meat = new Meat("Peito de Frango", 20);
+class HamburguerSanduicheBuilder implements SanduicheBuilder {
+  private hamburgherSanduiche: HamburgerSanduiche = new HamburgerSanduiche();
 
-    this.mealBox.add(rice, beans, meat);
-
+  abrePao(): this {
+    this.hamburgherSanduiche.abrePao();
     return this;
   }
 
-  makeBeverage(): this {
-    const beverage = new Beverage("Coca Cola - 1 litro", 7);
-    this.mealBox.add(beverage);
-
+  insereIngredientes(): this {
+    this.hamburgherSanduiche.insereIngredientes();
     return this;
   }
 
-  makeDessert(): this {
-    const dessert = new Dessert("Pudim 200gr", 7);
-    this.mealBox.add(dessert);
-
+  fechaPao(): this {
+    this.hamburgherSanduiche.fechaPao();
     return this;
   }
 
-  getResult(): MealComposite {
-    return this.mealBox;
+  getSanduiche(): Sanduiche {
+    console.log("Lanche está pronto");
+    return this.hamburgherSanduiche;
   }
 }
 
-const mainDishBuilder = new MainDishBuilder();
-mainDishBuilder.makeMeal();
-mainDishBuilder.makeDessert();
-console.log(mainDishBuilder.getResult());
+class FishSanduicheBuilder implements SanduicheBuilder {
+  private fishSanduiche: FishSanduiche = new FishSanduiche();
+
+  abrePao(): this {
+    this.fishSanduiche.abrePao();
+    return this;
+  }
+
+  insereIngredientes(): this {
+    this.fishSanduiche.insereIngredientes();
+    return this;
+  }
+
+  fechaPao(): this {
+    this.fishSanduiche.fechaPao();
+    return this;
+  }
+
+  getSanduiche(): Sanduiche {
+    console.log("Lanche está pronto");
+    return this.fishSanduiche;
+  }
+}
+
+class Cozinha {
+  fazSanduiche(builder: SanduicheBuilder) {
+    builder.abrePao();
+    builder.insereIngredientes();
+    builder.fechaPao();
+    builder.getSanduiche();
+  }
+}
+
+const builder1 = new HamburguerSanduicheBuilder();
+const builder2 = new FishSanduicheBuilder();
+
+const cozinha = new Cozinha();
+
+cozinha.fazSanduiche(builder1);
+
+console.log("------------------------------");
+
+cozinha.fazSanduiche(builder2);
+
+console.log("------------------------------");
+
+builder1.abrePao().fechaPao().getSanduiche();
