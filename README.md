@@ -9,7 +9,7 @@ docker build -t design-patterns/nodejs .
 
 Creating a container
 ```
-docker run -it -d -v $(pwd):/usr/src/app --rm --name design-pattern-app-nodejs design-patterns/nodejs
+docker run -it -d -v $(pwd):/usr/src/app --rm --name design-patterns-app-nodejs design-patterns/nodejs
 ```
 
 Enter to container
@@ -20,10 +20,10 @@ docker container exec -it design-patterns-app-nodejs bash
 Execute a specific file.
 Example:
 ```
-yarn tsc ./creational/builder/exemplo-01.ts
-node ./creational/builder/exemplo-01.js
+yarn ts-node-dev --transpile-only ./myScript.ts
 ```
 
+Optional: yarn ts-node-dev --respawn --transpile-only ./myScript.ts
 ## Patterns
 
 ### Behavior
