@@ -13,13 +13,13 @@ class ValidateEmail extends ValidationComponent {
 
 class ValidateString extends ValidationComponent {
   validate(value: unknown): boolean {
-    return typeof value !== "string";
+    return typeof value === "string";
   }
 }
 
 class ValidateNumber extends ValidationComponent {
   validate(value: unknown): boolean {
-    return typeof value !== "number";
+    return typeof value === "number";
   }
 }
 
@@ -45,7 +45,11 @@ const validateNumber = new ValidateNumber();
 const validateEmail = new ValidateEmail();
 const validateString = new ValidateString();
 
+
 const validateComposite = new ValidationComposite();
 validateComposite.add(validateEmail, validateNumber, validateString);
-
 console.log(validateComposite.validate("lucio@email.com"));
+
+const validateComposite2 = new ValidationComposite();
+validateComposite2.add(validateString, validateEmail);
+console.log(validateComposite2.validate("lucio@email.com"));

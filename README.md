@@ -37,6 +37,8 @@ Optional: yarn ts-node-dev --respawn --transpile-only ./myScript.ts
 - Singleton
 ### Structural
 - Composite
+- [Bridge](./structural/bridge/index.ts)
+- [Decorator](./structural/decorator/index.ts)
 
 
 ## Links:
