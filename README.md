@@ -2,6 +2,8 @@
 
 ## Commands
 
+teste
+
 Creating a image
 ```
 docker build -t design-patterns/nodejs .
